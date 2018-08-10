@@ -14,13 +14,25 @@ export class AppComponent {
       title: 'Home',
       url: '/home',
       icon: 'home'
-    },
-    {
-      title: 'List',
-      url: '/list',
-      icon: 'list'
+    }, {
+      title: 'Cadastro',
+      url: '/cadastro',
+      icon: 'at'
+    }, {
+      title: 'Profile',
+      url: '/profile',
+      icon: 'at'
+    }, {
+      title: 'Login',
+      url: '/login',
+      icon: 'at'
+    }, {
+      title: 'Logoff',
+      url: '/logoff',
+      icon: 'at'
     }
   ];
+
 
   constructor(
     private platform: Platform,
