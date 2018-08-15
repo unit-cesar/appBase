@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Aula
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-card *ngIf="item">
+    <ion-button expand="full" href="/" routerDirection="backward"><<<<</ion-button>
+    <ion-card-header><h1>{{ item.titulo }}</h1></ion-card-header>
+    <ion-item>
+      <div>{{ aula.descricao }} - Id: {{ aula.id }}</div>
+      <div class="video-container">
+        <div *ngIf="aula.video">
+          <iframe [src]="domSanitizer.bypassSecurityTrustResourceUrl(aula.video)" frameborder="0"></iframe>
+          <!--allow="autoplay; encrypted-media" allowfullscreen-->
+        </div>
+        <div *ngIf="!aula.video">
+          Aula sem vídeo!
+        </div>
+      </div>
+    </ion-item>
+  </ion-card>
+
+</ion-content>

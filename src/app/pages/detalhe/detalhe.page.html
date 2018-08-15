@@ -1,0 +1,29 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title *ngIf="item">
+      Detalhe - Id: {{ item.id }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding *ngIf="item">
+
+  <ion-card (click)="comprar(item)">
+    <div class="card-title">{{ item.titulo }}</div>
+    <div class="card-subtitle">{{ item.descricao }}</div>
+    <ion-button expand="full" color="secondary">{{ item.valor_txt }}</ion-button>
+  </ion-card>
+
+  <ion-list no-lines>
+    <ion-list-header>
+      <ion-label>Aulas</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let aula of item.aulas" [routerLink]="'/aula/' + item.id + '/' + aula.id">
+      {{ aula.descricao }}
+    </ion-item>
+  </ion-list>
+
+</ion-content>

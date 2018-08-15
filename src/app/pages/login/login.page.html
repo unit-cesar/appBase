@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Login
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding class="card-background-page">
+
+  <ion-list *ngIf="goLogin">
+
+    <ion-item>
+      <ion-input type="text" placeholder="Username" [(ngModel)]="user.username"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="password" placeholder="Password" [(ngModel)]="user.pw"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" placeholder="Password" [(ngModel)]="user.id"></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" (click)="getLoginData(user)">Entrar</ion-button>
+    <ion-button expand="full" color="secondary" (click)="cancelBack()">Cancelar</ion-button>
+
+  </ion-list>
+
+</ion-content>

@@ -19,8 +19,8 @@ export class AppComponent {
       url: '/cadastro',
       icon: 'at'
     }, {
-      title: 'Profile',
-      url: '/profile',
+      title: 'Perfil',
+      url: '/perfil/0', //???????????????
       icon: 'at'
     }, {
       title: 'Login',

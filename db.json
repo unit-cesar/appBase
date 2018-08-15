@@ -1,0 +1,130 @@
+{
+  "cursos": [
+    {
+      "id": 0,
+      "titulo": "Curso de JavaScript",
+      "descricao": "Aprenda na prática",
+      "valor": 23.9,
+      "valor_txt": "R$ 23,90",
+      "imagem": "card-saopaolo.png",
+      "aulas": [
+        {
+          "id": 0,
+          "descricao": "Aula 001",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        },
+        {
+          "id": 1,
+          "descricao": "Aula 002",
+          "video": ""
+        },
+        {
+          "id": 2,
+          "descricao": "Aula 003",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "titulo": "Curso de TypeScript",
+      "descricao": "Aprenda na prática",
+      "valor": 23.9,
+      "valor_txt": "R$ 23,90",
+      "imagem": "card-saopaolo.png",
+      "aulas": [
+        {
+          "id": 0,
+          "descricao": "Aula 001",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        },
+        {
+          "id": 1,
+          "descricao": "Aula 002",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        },
+        {
+          "id": 2,
+          "descricao": "Aula 003",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "titulo": "Curso de Angular",
+      "descricao": "Aprenda na prática",
+      "valor": 23.9,
+      "valor_txt": "R$ 23,90",
+      "imagem": "card-saopaolo.png",
+      "aulas": [
+        {
+          "id": 0,
+          "descricao": "Aula 001",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        },
+        {
+          "id": 1,
+          "descricao": "Aula 002",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        },
+        {
+          "id": 2,
+          "descricao": "Aula 003",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "titulo": "Curso de Ionic XXX",
+      "descricao": "Aprenda na prática",
+      "valor": 23.9,
+      "valor_txt": "R$ 23,90",
+      "imagem": "card-saopaolo.png",
+      "aulas": [
+        {
+          "id": 0,
+          "descricao": "Aula 001",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        },
+        {
+          "id": 1,
+          "descricao": "Aula 002",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        },
+        {
+          "id": 2,
+          "descricao": "Aula 003",
+          "video": "https://www.youtube.com/embed/pEw4ifWjlik"
+        }
+      ]
+    }
+  ],
+  "user": [
+    {
+      "id": 0,
+      "username": "devesa-000",
+      "email": "asd@asd.com",
+      "pw": "123"
+    },
+    {
+      "username": "devesa",
+      "email": "user@user.com",
+      "pw": "123",
+      "id": 1
+    },
+    {
+      "username": "devesa",
+      "email": "user@user.com",
+      "pw": "123",
+      "id": 2
+    },
+    {
+      "username": "devesa555",
+      "email": "user@user.com",
+      "pw": "123",
+      "id": 3
+    }
+  ]
+}

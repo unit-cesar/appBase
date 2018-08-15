@@ -7,16 +7,15 @@ const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full'
   },
-  {
-    path: 'home',
-    loadChildren: './home/home.module#HomePageModule'
-  },
-  {path: 'detalhe', loadChildren: './detalhe/detalhe.module#DetalhePageModule'},
-  {path: 'aula', loadChildren: './aula/aula.module#AulaPageModule'},
-  {path: 'cadastro', loadChildren: './cadastro/cadastro.module#CadastroPageModule'},
-  {path: 'profile', loadChildren: './profile/profile.module#ProfilePageModule'},
-  {path: 'login', loadChildren: './login/login.module#LoginPageModule'},
-  {path: 'logoff', loadChildren: './logoff/logoff.module#LogoffPageModule'}
+  {path: 'home', loadChildren: './pages/home/home.module#HomePageModule'},
+  {path: 'detalhe', loadChildren: './pages/detalhe/detalhe.module#DetalhePageModule'},
+  {path: 'detalhe/:id', loadChildren: './pages/detalhe/detalhe.module#DetalhePageModule'},
+  {path: 'aula/:idCurso/:idAula', loadChildren: './pages/aula/aula.module#AulaPageModule'},
+  {path: 'login', loadChildren: './pages/login/login.module#LoginPageModule'},
+  {path: 'cadastro', loadChildren: './pages/cadastro/cadastro.module#CadastroPageModule'},
+  {path: 'perfil/:idUser', loadChildren: './pages/profile/profile.module#ProfilePageModule'},
+  {path: 'logoff', loadChildren: './pages/logoff/logoff.module#LogoffPageModule'},
+
 ];
 
 @NgModule({

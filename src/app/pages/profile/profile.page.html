@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>
+      Perfil
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding class="card-background-page">
+
+  <ion-list>
+
+    <ion-item>
+      <div>Id: {{ user.id }}</div>
+    </ion-item>
+    <ion-item>
+      <ion-input type="text" placeholder="Username" [(ngModel)]="user.username"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="text" placeholder="Email" [(ngModel)]="user.email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input type="password" placeholder="Password" [(ngModel)]="user.pw"></ion-input>
+    </ion-item>
+
+    <ion-button expand="full" (click)="putEditData(user)">Editar</ion-button>
+    <ion-button expand="full" color="secondary" (click)="cancelBack()">Cancela</ion-button>
+
+  </ion-list>
+
+
+</ion-content>
