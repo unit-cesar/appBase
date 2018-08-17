@@ -16,12 +16,16 @@ export class LogoffPage implements OnInit {
   }
 
   ionViewDidEnter() {
+
+    // Montar metodo em 'user.service.ts'
+
     // Verifica no Storage ou abre vai pra tela de login ou home
     this.userService.getStorage('user').then(resStorage => {
       if (resStorage) {
 
         // Remove do storage
         this.userService.removeStorage('user');
+        this.userService.showMenuEmitter.emit(false);
 
         // Atualiza o BD e redireciona
         this.userService.getOne(resStorage.id).subscribe(

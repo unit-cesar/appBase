@@ -14,11 +14,21 @@ export class CadastroPage implements OnInit, OnDestroy {
   fileName = 'src/app/pages/cadastro/cadastro.page.ts';
   user: IUser = {'username': 'devesa', 'email': 'user@user.com', 'pw': '123'};
   inscAdd: Subscription;
+  showPage: boolean;
 
   constructor(public userService: UserService, public router: Router) {
   }
 
   ngOnInit() {
+  }
+
+  ionViewDidEnter() {
+
+    this.showPage = !this.userService.userAuth;
+
+    // Força sair da página caso entre diretamente na URL (Complemento para 'authOutGuard')
+    this.userService.pageRedundant();
+
   }
 
   postAddData(data: IUser) {

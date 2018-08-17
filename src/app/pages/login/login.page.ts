@@ -11,19 +11,16 @@ import { Subscription } from 'rxjs';
 })
 export class LoginPage implements OnInit {
 
-  fileName = 'src/app/pages/login/login.page.ts';
-  user: IUser = {'id': 0, 'username': '', 'email': '', 'pw': ''};
-  inscLogin: Subscription;
-  goLogin = false;
-
   // Run:
   // json-server --host 10.0.0.7 --port 3000 --watch db.json
   // http://10.0.0.7:3000/cursos
 
+  // Var for test
+  user: IUser = {'id': 0, 'username': 'devesa-0', 'email': 'user0@user.com', 'pw': '123'};
+
+  showPage: boolean;
+
   constructor(public userService: UserService, public router: Router) {
-
-    // this.router.navigate(['/perfil]', {queryParams: {'ref': this.router.url}});
-
   }
 
   ngOnInit() {
@@ -31,55 +28,23 @@ export class LoginPage implements OnInit {
 
   ionViewDidEnter() {
 
-    // Verifica no Storage ou abre a tela de login
-    this.userService.getStorage('user').then(resStorage => {
-      if (resStorage) {
-        // Compara com BD e redireciona pra '/perfil/:idUser'
-        this.userService.getOne(resStorage.id).subscribe(
-          res => {
-            console.log(res);
-            this.user = res; // ??? if/else...
-          },
-          error => {
-            console.log('Erro em:' + error.message);
-          },
-          () => {
-            console.log('Login OK');
-            this.router.navigate(['/perfil/' + this.user.id], {queryParams: {'ref': this.router.url}});
-          });
+    // Mostra página apenas para user autenticado
+    this.showPage = !this.userService.userAuth;
 
-      } else {
-        this.goLogin = true;
-        console.log('Fazer login.');
-      }
-    });
+    // Força sair da página caso entre diretamente na URL (Complemento para 'authOutGuard')
+    this.userService.pageRedundant();
+
   }
 
   getLoginData(data: IUser) {
-    this.inscLogin = this.userService.getLogin(data).subscribe(
-      res => {
-        // Set Storage
-        this.userService.setStorage('user', res);
-
-        // Set user
-        this.user = res;
-
-        console.log(res);
-      },
-      error => {
-        console.log('\n\nERROR IN:\n' + this.fileName + '\n' + error.message + '\n\n');
-        alert('Erro ao fazer login!');
-        this.router.navigate(['/'], {queryParams: {'ref': 'errorLogin'}});
-      },
-      () => {
-        this.inscLogin.unsubscribe();
-        this.router.navigate(['/perfil/' + this.user.id], {queryParams: {'ref': this.router.url}});
-      });
-
+    if (!this.userService.getLogin(data)) {
+      console.log('Usuário ou senha inválido!');
+      alert('Usuário ou senha inválido!');
+    }
   }
-
 
   cancelBack() {
     this.router.navigate(['/'], {queryParams: {'ref': this.router.url}});
   }
+
 }

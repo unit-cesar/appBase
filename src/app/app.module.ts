@@ -13,6 +13,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { CursosService } from './services/cursos.service';
 import { UserService } from './services/user.service';
+import { AuthGuard } from './guards/auth.guard';
+import { AuthOutGuard } from './guards/auth-out.guard';
 
 @NgModule({
   declarations: [AppComponent, TestComponent],
@@ -29,7 +31,9 @@ import { UserService } from './services/user.service';
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     CursosService,
-    UserService
+    UserService,
+    AuthGuard,
+    AuthOutGuard
   ],
   bootstrap: [AppComponent]
 })

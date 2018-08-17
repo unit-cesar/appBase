@@ -11,9 +11,10 @@ import { Subscription } from 'rxjs';
 })
 export class ProfilePage implements OnInit {
 
-  user: IUser = {'username': '', 'email': '', 'pw': ''};
+  user: IUser;
   inscUserOne: Subscription;
   inscUserPut: Subscription;
+  showPage: boolean;
 
   constructor(public router: Router, public userService: UserService) {
   }
@@ -23,28 +24,36 @@ export class ProfilePage implements OnInit {
 
   ionViewDidEnter() {
 
-    this.userService.getStorage('user').then(resStorage => {
-      if (resStorage) {
+    this.showPage = false;
+    this.user = this.userService.userData;
+    this.showPage = this.userService.userAuth;
 
-        // this.user = resStorage;
-        this.inscUserOne = this.userService.getOne(resStorage.id).subscribe(
-          res => {
-            console.log(res);
-            this.user = res;
-          },
-          error => {
-            console.log('Erro em:' + error.message);
-          },
-          () => {
-            this.inscUserOne.unsubscribe();
-          }
-        );
 
-      } else {
-        console.log('"user" não existe em Storage');
-        this.router.navigate(['/login'], {queryParams: {'ref': this.router.url}});
-      }
-    });
+    // this.userService.getStorage('user').then(resStorage => {
+    //   if (resStorage) {
+    //
+    //     // Pendente: Comparar se é igual ao ID da rota
+    //
+    //     // this.user = resStorage;
+    //     this.inscUserOne = this.userService.getOne(resStorage.id).subscribe(
+    //       res => {
+    //         console.log(res);
+    //         this.user = res;
+    //       },
+    //       error => {
+    //         console.log('Erro em:' + error.message);
+    //       },
+    //       () => {
+    //         this.goForm = true;
+    //         this.inscUserOne.unsubscribe();
+    //       }
+    //     );
+    //
+    //   } else {
+    //     console.log('"user" não existe em Storage');
+    //     this.router.navigate(['/login'], {queryParams: {'ref': this.router.url}});
+    //   }
+    // });
 
   }
 
@@ -66,7 +75,8 @@ export class ProfilePage implements OnInit {
   }
 
   cancelBack() {
-    this.router.navigate(['/'], {queryParams: {'ref': this.router.url}});
+    // this.router.navigate(['/'], {queryParams: {'ref': this.router.url}});
+    this.router.navigate(['/', this.router.url]);
   }
 
 }

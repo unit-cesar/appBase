@@ -76,8 +76,7 @@
       ]
     },
     {
-      "id": 3,
-      "titulo": "Curso de Ionic XXX",
+      "titulo": "Curso de Ionic",
       "descricao": "Aprenda na prática",
       "valor": 23.9,
       "valor_txt": "R$ 23,90",
@@ -98,31 +97,32 @@
           "descricao": "Aula 003",
           "video": "https://www.youtube.com/embed/pEw4ifWjlik"
         }
-      ]
+      ],
+      "id": 3
     }
   ],
   "user": [
     {
       "id": 0,
-      "username": "devesa-000",
-      "email": "asd@asd.com",
+      "username": "devesa-0",
+      "email": "user0@user.com",
       "pw": "123"
     },
     {
-      "username": "devesa",
-      "email": "user@user.com",
+      "username": "devesa-1",
+      "email": "user1@user.com",
       "pw": "123",
       "id": 1
     },
     {
-      "username": "devesa",
-      "email": "user@user.com",
+      "username": "devesa-2",
+      "email": "user2@user.com",
       "pw": "123",
       "id": 2
     },
     {
-      "username": "devesa555",
-      "email": "user@user.com",
+      "username": "devesa-3",
+      "email": "user3@user.com",
       "pw": "123",
       "id": 3
     }

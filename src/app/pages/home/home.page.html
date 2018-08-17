@@ -9,7 +9,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content padding class="card-background-page">
+<ion-content padding class="card-background-page" *ngIf="showPage">
 
 
   <!--<ion-button expand="full" fill="solid" color="primary">Full Button</ion-button>-->
@@ -38,7 +38,7 @@
     <ion-img [src]="'assets/imgs/'+item.imagem" [routerLink]="'/detalhe/' + item.id"></ion-img>
     <p class="card-title" [routerLink]="'/detalhe/' + item.id">{{ item.id }} - {{ item.titulo }}</p>
     <p class="card-subtitle" [routerLink]="'/detalhe/' + item.id">{{ item.descricao }}</p>
-    <ion-button expand="full" [routerLink]="'/detalhe/' + item.id">Mais</ion-button>
+    <ion-button expand="full" [routerLink]="'/detalhe/' + item.id" [queryParams]="{ref:'/home'}">Mais</ion-button>
     <ion-button expand="full" color="secondary" (click)="comprar(item.id)">{{ item.valor_txt }}</ion-button>
   </ion-card>
 

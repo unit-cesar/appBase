@@ -3,6 +3,7 @@ import { ICurso } from '../../interfaces/icurso';
 import { CursosService } from '../../services/cursos.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-home',
@@ -14,6 +15,7 @@ export class HomePage implements OnInit, OnDestroy {
   fileName = 'src/app/pages/home/home.page.ts';
   lista: ICurso[];
   inscCursos: Subscription;
+  showPage: boolean;
 
   dataTesteNew: ICurso = {
 
@@ -74,7 +76,7 @@ export class HomePage implements OnInit, OnDestroy {
   };
 
 
-  constructor(private route: ActivatedRoute, private router: Router, public cursosService: CursosService) {
+  constructor(private route: ActivatedRoute, private router: Router, public cursosService: CursosService, public userService: UserService) {
 
     // console.log(this.route);
     // console.log(this.route);
@@ -85,9 +87,8 @@ export class HomePage implements OnInit, OnDestroy {
   ngOnInit() {
   }
 
+  // # Atualiza dados ao entrar ou retornar na página - Função do Ionic:
   ionViewDidEnter() {
-
-    // # Atualiza dados ao entrar ou retornar na página - Função do Ionic:
 
     // Run:
     // json-server --host 10.0.0.7 --port 3000 --watch db.json
@@ -100,13 +101,16 @@ export class HomePage implements OnInit, OnDestroy {
         console.log('\n\nERROR IN:\n' + this.fileName + '\n' + error.message + '\n\n');
       },
       () => {
+        this.showPage = true;
         this.inscCursos.unsubscribe();
       });
 
+    if (this.lista) {
+      this.showPage = true;
+    }
   }
 
   ngOnDestroy() {
-    // this.inscCursos.unsubscribe();
   }
 
   getOneData(data: Number) {

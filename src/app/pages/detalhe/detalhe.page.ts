@@ -17,11 +17,25 @@ export class DetalhePage implements OnInit {
   id: number;
   item: ICurso;
 
+  inscRefUrl: Subscription;
+  refUrl: String = 'ok';
+
 
   constructor(private route: ActivatedRoute, private router: Router, public cursosService: CursosService) {
   }
 
   ngOnInit() {
+    // Buscando ref na URL, como o $_GET["ref"] do PHP
+    this.inscRefUrl = this.route.queryParams.subscribe((res: any) => {
+        this.refUrl = res['ref'];
+      }, error => {
+        console.log('\n\nERROR IN:\n' + this.fileName + '\n' + error.message + '\n\n');
+        alert('Erro ao buscar var ref na URL');
+      },
+      () => {
+        this.inscRefUrl.unsubscribe();
+      });
+
   }
 
   ionViewDidEnter() {

@@ -11,7 +11,7 @@
 
 <ion-content padding class="card-background-page">
 
-  <ion-list>
+  <ion-list *ngIf="showPage">
 
     <ion-item>
       <ion-input type="text" placeholder="Username" [(ngModel)]="user.username"></ion-input>
