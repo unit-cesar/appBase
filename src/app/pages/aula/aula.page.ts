@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { CursosService } from '../../services/cursos.service';
 import { ICurso } from '../../interfaces/icurso';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-aula',
@@ -20,12 +21,30 @@ export class AulaPage implements OnInit, OnDestroy {
   item: ICurso;
   id: number;
   idAula: number;
+  inscBackButton: Subscription;
+  element: HTMLElement;
 
-  constructor(private route: ActivatedRoute, private router: Router, public cursosService: CursosService, public domSanitizer: DomSanitizer) {
-
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    public cursosService: CursosService,
+    public domSanitizer: DomSanitizer,
+    public platform: Platform) {
   }
 
   ngOnInit() {
+    this.inscBackButton = this.platform.backButton.subscribe(() => {
+      console.log('Physical Back Button - Aula');
+      // Check log in chrome: "chrome://inspect/#devices"
+
+      this.element = document.getElementById('backButton') as HTMLElement;
+      this.element.click();
+      // OR
+      // this.router.navigate(['/']);
+
+    }, error => {
+      console.log('\n\nERROR IN:\n' + this.fileName + '\n' + error.message + '\n\n');
+    });
   }
 
   ionViewDidEnter() {
@@ -54,7 +73,6 @@ export class AulaPage implements OnInit, OnDestroy {
             this.router.navigate(['/']);
           },
           () => {
-            this.inscCurso.unsubscribe();
           });
 
       },
@@ -62,12 +80,14 @@ export class AulaPage implements OnInit, OnDestroy {
         console.log('\n\nERROR IN:\n' + this.fileName + '\n' + error.message + '\n\n');
       },
       () => {
-        this.inscId.unsubscribe();
       });
 
   }
 
   ngOnDestroy() {
+    this.inscId.unsubscribe();
+    this.inscCurso.unsubscribe();
+    this.inscBackButton.unsubscribe();
   }
 
 }

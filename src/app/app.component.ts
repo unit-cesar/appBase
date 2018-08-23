@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -53,27 +53,32 @@ export class AppComponent implements OnInit {
         title: 'Home',
         url: '/home',
         icon: 'home',
-        guard: true
+        guard: true,
+        routerDirection: 'root'
       }, {
         title: 'Cadastro',
         url: '/cadastro',
         icon: 'at',
-        guard: !this.showMenu
+        guard: !this.showMenu,
+        routerDirection: 'forward'
       }, {
         title: 'Perfil',
         url: '/perfil/0', // ???????????????
         icon: 'at',
-        guard: this.showMenu
+        guard: this.showMenu,
+        routerDirection: 'forward'
       }, {
         title: 'Login',
         url: '/login',
         icon: 'at',
-        guard: !this.showMenu
+        guard: !this.showMenu,
+        routerDirection: 'forward'
       }, {
         title: 'Logoff',
         url: '/logoff',
         icon: 'at',
-        guard: this.showMenu
+        guard: this.showMenu,
+        routerDirection: 'forward'
       }];
   }
 

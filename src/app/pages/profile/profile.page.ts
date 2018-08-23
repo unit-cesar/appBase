@@ -1,25 +1,46 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { IUser } from '../../interfaces/iuser';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { Subscription } from 'rxjs';
+import { DomSanitizer } from '@angular/platform-browser';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.page.html',
   styleUrls: ['./profile.page.scss'],
 })
-export class ProfilePage implements OnInit {
+export class ProfilePage implements OnInit, OnDestroy {
 
+  fileName = 'src/app/pages/profile/profile.page.ts';
   user: IUser;
   inscUserOne: Subscription;
   inscUserPut: Subscription;
   showPage: boolean;
+  inscBackButton: Subscription;
+  element: HTMLElement;
 
-  constructor(public router: Router, public userService: UserService) {
+  constructor(public router: Router, public userService: UserService, public platform: Platform) {
   }
 
   ngOnInit() {
+    this.inscBackButton = this.platform.backButton.subscribe(() => {
+      console.log('Physical Back Button - Profile');
+      // Check log in chrome: "chrome://inspect/#devices"
+
+      this.element = document.getElementById('backButton') as HTMLElement;
+      this.element.click();
+      // OR
+      // this.router.navigate(['/']);
+
+    }, error => {
+      console.log('\n\nERROR IN:\n' + this.fileName + '\n' + error.message + '\n\n');
+    });
+  }
+
+  ngOnDestroy() {
+    this.inscBackButton.unsubscribe();
   }
 
   ionViewDidEnter() {

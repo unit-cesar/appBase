@@ -3,6 +3,7 @@ import { IUser } from '../../interfaces/iuser';
 import { UserService } from '../../services/user.service';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { Platform } from '@ionic/angular';
 
 @Component({
   selector: 'app-cadastro',
@@ -15,11 +16,26 @@ export class CadastroPage implements OnInit, OnDestroy {
   user: IUser = {'username': 'devesa', 'email': 'user@user.com', 'pw': '123'};
   inscAdd: Subscription;
   showPage: boolean;
+  inscBackButton: Subscription;
+  element: HTMLElement;
 
-  constructor(public userService: UserService, public router: Router) {
+
+  constructor(public userService: UserService, public router: Router, public platform: Platform) {
   }
 
   ngOnInit() {
+    this.inscBackButton = this.platform.backButton.subscribe(() => {
+      console.log('Physical Back Button - Cadastro');
+      // Check log in chrome: "chrome://inspect/#devices"
+
+      this.element = document.getElementById('backButton') as HTMLElement;
+      this.element.click();
+      // OR
+      // this.router.navigate(['/']);
+
+    }, error => {
+      console.log('\n\nERROR IN:\n' + this.fileName + '\n' + error.message + '\n\n');
+    });
   }
 
   ionViewDidEnter() {
@@ -49,6 +65,7 @@ export class CadastroPage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.inscBackButton.unsubscribe();
   }
 
   cancelBack() {

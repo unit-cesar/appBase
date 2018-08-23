@@ -1,13 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-logoff',
   templateUrl: './logoff.page.html',
   styleUrls: ['./logoff.page.scss'],
 })
-export class LogoffPage implements OnInit {
+export class LogoffPage implements OnInit, OnDestroy {
+  inscUserService: Subscription;
 
   constructor(public router: Router, public userService: UserService) {
   }
@@ -28,7 +30,7 @@ export class LogoffPage implements OnInit {
         this.userService.showMenuEmitter.emit(false);
 
         // Atualiza o BD e redireciona
-        this.userService.getOne(resStorage.id).subscribe(
+        this.inscUserService = this.userService.getOne(resStorage.id).subscribe(
           res => {
             console.log(res);
             // Insere log em db (Pendente)
@@ -49,4 +51,7 @@ export class LogoffPage implements OnInit {
     });
   }
 
+  ngOnDestroy() {
+    this.inscUserService.unsubscribe();
+  }
 }
