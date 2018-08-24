@@ -17,7 +17,12 @@ const routes: Routes = [
   {path: 'cadastro', canActivate: [AuthOutGuard], loadChildren: './pages/cadastro/cadastro.module#CadastroPageModule'},
   {path: 'perfil/:idUser', canActivate: [AuthGuard], loadChildren: './pages/profile/profile.module#ProfilePageModule'},
   {path: 'logoff', loadChildren: './pages/logoff/logoff.module#LogoffPageModule'},
+  {
+    path: '**',
+    loadChildren: './pages/page-not-found/page-not-found.module#PageNotFoundPageModule'
+  }
 
+  // "pathMatch: 'prefix'" para validar pedaços da rota em rotas filhas
 ];
 
 @NgModule({

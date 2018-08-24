@@ -15,14 +15,14 @@ import { Platform } from '@ionic/angular';
 export class AulaPage implements OnInit, OnDestroy {
 
   fileName = 'src/app/pages/aula/aula.page.ts';
+  inscBackButton: Subscription;
+  element: HTMLElement;
   inscId: Subscription;
   inscCurso: Subscription;
   aula: IAula;
   item: ICurso;
   id: number;
   idAula: number;
-  inscBackButton: Subscription;
-  element: HTMLElement;
 
   constructor(
     private route: ActivatedRoute,

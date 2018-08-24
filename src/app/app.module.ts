@@ -15,6 +15,8 @@ import { CursosService } from './services/cursos.service';
 import { UserService } from './services/user.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthOutGuard } from './guards/auth-out.guard';
+import { LoginPageModule } from './pages/login/login.module';
+import { CadastroPageModule } from './pages/cadastro/cadastro.module';
 
 @NgModule({
   declarations: [AppComponent, TestComponent],
@@ -24,7 +26,8 @@ import { AuthOutGuard } from './guards/auth-out.guard';
     IonicModule.forRoot(),
     AppRoutingModule,
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    CadastroPageModule
   ],
   providers: [
     StatusBar,

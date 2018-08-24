@@ -1,16 +1,16 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 
 import { IonicModule } from '@ionic/angular';
 
-import { CadastroPage } from './cadastro.page';
+import { PageNotFoundPage } from './page-not-found.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: CadastroPage
+    component: PageNotFoundPage
   }
 ];
 
@@ -19,11 +19,8 @@ const routes: Routes = [
     CommonModule,
     FormsModule,
     IonicModule,
-    RouterModule.forChild(routes),
-    ReactiveFormsModule
+    RouterModule.forChild(routes)
   ],
-  declarations: [
-    CadastroPage
-  ]
+  declarations: [PageNotFoundPage]
 })
-export class CadastroPageModule {}
+export class PageNotFoundPageModule {}

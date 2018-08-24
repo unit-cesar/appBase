@@ -12,24 +12,74 @@
 
 <ion-content padding class="card-background-page">
 
-  <ion-list *ngIf="showPage">
+  <!--<h1>Área de Testes - Form Data Driven</h1>-->
 
-    <ion-item>
-      <ion-input type="text" placeholder="Username" [(ngModel)]="user.username"></ion-input>
-    </ion-item>
+  <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+    <ion-list *ngIf="showPage">
 
-    <ion-item>
-      <ion-input type="text" placeholder="Email" [(ngModel)]="user.email"></ion-input>
-    </ion-item>
+      <ion-item id="item-userName">
+        <ion-label position="floating">Nome</ion-label>
+        <ion-input type="text" [formControlName]="'userName'" id="userName"
+                   (ionChange)="checkFields(this.myForm, 'userName')"></ion-input>
+      </ion-item>
 
-    <ion-item>
-      <ion-input type="password" placeholder="Password" [(ngModel)]="user.pw"></ion-input>
-    </ion-item>
+      <ion-item id="item-email">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input type="text" [formControlName]="'email'" id="email"
+                   (ionChange)="checkFields(this.myForm, 'email')"></ion-input>
+      </ion-item>
 
-    <ion-button expand="full" (click)="postAddData(user)">Registrar</ion-button>
-    <ion-button expand="full" color="secondary" (click)="cancelBack()">Cancelar</ion-button>
+      <ion-item id="item-pw">
+        <ion-label position="floating">Senha</ion-label>
+        <ion-input type="password" [formControlName]="'pw'" id="pw"
+                   (ionChange)="checkFields(this.myForm, 'pw')"></ion-input>
+      </ion-item>
 
-  </ion-list>
+      <ion-button expand="full" color="primary" type="submit" [disabled]="false">Registrar</ion-button>
+      <ion-button expand="full" color="warning" (click)="resetForm()">Limpar</ion-button>
+      <ion-button expand="full" color="secondary" (click)="cancelBack()">Cancelar</ion-button>
 
+
+    </ion-list>
+  </form>
+  <!--<div class="form-group" [ngClass]="aplicaCssErro('nome')">-->
+  <!--<div class="col-sm-12">-->
+  <!--<label for="nome" class="control-label">Nome</label>-->
+  <!--</div>-->
+
+  <!--<div class="col-sm-12">-->
+  <!--<input type="text" class="form-control"-->
+  <!--formControlName="nome"-->
+  <!--id="nome" placeholder="Nome" >-->
+
+  <!--<app-campo-control-erro [mostrarErro]="verificaValidTouched('nome')" msgErro="Nome é obrigatório.">-->
+  <!--</app-campo-control-erro>-->
+  <!--</div>-->
+  <!--</div>-->
+
+  <!--<div class="form-group" [ngClass]="aplicaCssErro('email')">-->
+  <!--<div class="col-sm-12">-->
+  <!--<label for="email" class="control-label">Email</label>-->
+  <!--</div>-->
+  <!--<div class="col-sm-12">-->
+  <!--<input type="email" class="form-control"-->
+  <!--formControlName="email"-->
+  <!--id="email" placeholder="nome@email.com" >-->
+  <!--<app-campo-control-erro-->
+  <!--[mostrarErro]="verificaValidTouched('email')"-->
+  <!--msgErro="Email é obrigatório.">-->
+  <!--</app-campo-control-erro>-->
+  <!--<app-campo-control-erro-->
+  <!--[mostrarErro]="verificaEmailInvalido()"-->
+  <!--msgErro="Email inválido.">-->
+  <!--</app-campo-control-erro>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!---->
+  <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+  <!--<button class="btn" (click)="resetar()">Cancelar</button>-->
+
+  <!--<app-form-debug [form]="formulario"></app-form-debug>-->
+  <!--</form>-->
 
 </ion-content>
