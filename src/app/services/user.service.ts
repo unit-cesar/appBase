@@ -13,7 +13,7 @@ export class UserService {
   // json-server --host 10.0.0.7 --port 3000 --watch db.json
   // http://10.0.0.7:3000/user
 
-  url: String = 'http://10.0.0.7:3000';
+  private readonly API: String = 'http://10.0.0.7:3000';
   headers: any;
 
   userAuth: boolean;
@@ -62,23 +62,23 @@ export class UserService {
 
 
   getAll() {
-    return this.http.get<IUser[]>(this.url + '/user');
+    return this.http.get<IUser[]>(this.API + '/user');
   }
 
   getOne(data: Number) {
-    return this.http.get<IUser>(this.url + '/user/' + data);
+    return this.http.get<IUser>(this.API + '/user/' + data);
   }
 
   postAdd(data: IUser) {
-    return this.http.post<IUser>(this.url + '/user', data);
+    return this.http.post<IUser>(this.API + '/user', data);
   }
 
   putEdit(data: IUser) {
-    return this.http.put<IUser>(this.url + '/user/' + data.id, data);
+    return this.http.put<IUser>(this.API + '/user/' + data.id, data);
   }
 
   deleteOne(data: IUser) {
-    return this.http.delete<IUser>(this.url + '/user/' + data.id);
+    return this.http.delete<IUser>(this.API + '/user/' + data.id);
   }
 
 
