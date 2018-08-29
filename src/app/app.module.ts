@@ -8,18 +8,16 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-import { TestComponent } from './components/test/test.component';
 import { HttpClientModule } from '@angular/common/http';
 import { IonicStorageModule } from '@ionic/storage';
 import { CursosService } from './services/cursos.service';
 import { UserService } from './services/user.service';
 import { AuthGuard } from './guards/auth.guard';
 import { AuthOutGuard } from './guards/auth-out.guard';
-import { LoginPageModule } from './pages/login/login.module';
 import { CadastroPageModule } from './pages/cadastro/cadastro.module';
 
 @NgModule({
-  declarations: [AppComponent, TestComponent],
+  declarations: [AppComponent],
   entryComponents: [],
   imports: [
     BrowserModule,

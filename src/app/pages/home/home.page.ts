@@ -74,6 +74,8 @@ export class HomePage implements OnInit, OnDestroy {
     ]
 
   };
+  public myTyped: string;
+  public myTyped_2: string;
 
 
   constructor(private route: ActivatedRoute, private router: Router, public cursosService: CursosService, public userService: UserService) {
@@ -172,4 +174,19 @@ export class HomePage implements OnInit, OnDestroy {
     this.router.navigate(['/detalhe/' + id], {queryParams: {'ref': this.router.url}});
   }
 
+  typed(event) {
+
+    // console.log(event);
+    // console.log(event.type);
+    // console.log(event.target.value);
+    if (event.type === 'keyup') {
+      // console.log(event.type);
+      this.myTyped = 'keyup: ' + event.target.value;
+    }
+    if (event.type === 'blur') {
+      console.log(event.type);
+      this.myTyped = 'blur: ' + event.target.value;
+    }
+
+  }
 }

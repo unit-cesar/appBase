@@ -10,17 +10,47 @@
 </ion-header>
 
 <ion-content padding class="card-background-page" *ngIf="showPage">
-
+  <app-test></app-test>
+  <app-test></app-test>
 
   <!--<ion-button expand="full" fill="solid" color="primary">Full Button</ion-button>-->
   <!--<ion-button expand="full" fill="clear" color="secondary">Full Button</ion-button>-->
 
-  <ion-input #idCurso [value]="0" [placeholder]="'Digite o ID de um curso...'"></ion-input>
+  <ion-item>
+    <ion-label position="fixed">Fixed Label</ion-label>
+    <ion-input #idCurso [value]="0" [placeholder]="'Digite o ID de um curso...'"></ion-input>
+  </ion-item>
   <ion-button expand="full" [routerLink]="'/detalhe/' + idCurso.value">Curso com id digitado: {{ idCurso.value }}
   </ion-button>
 
-  <br>
+  <h3>Testes de Binds</h3>
+  <p [class.my-green]="showPage === showPage">{{ idCurso.value }}</p>
+  <p [class.my-green]="true">{{ myTyped }}</p>
+  <p [hidden]="true">Esconde</p>
 
+
+  <ion-item>
+    <ion-label position="fixed">keyup / blur</ion-label>
+    <ion-input (keyup)="typed($event)" (blur)="typed($event)"></ion-input>
+  </ion-item>
+
+  <p [class.my-green]="true">{{ myTyped_2 }}</p>
+  <ion-item>
+    <ion-label position="fixed">ngModel</ion-label>
+    <ion-input [(ngModel)]="myTyped_2"></ion-input>
+    <!--Basta criar a var no TS-->
+  </ion-item>
+
+  <br>
+  <p *ngIf="showPage as retorno; else elseBlock;">Retorno: {{ retorno }}</p>
+  <ng-template #elseBlock>elseBlock</ng-template>
+
+  <p *ngIf="showPage; then thenBlock; else elseBlock;">Text to show</p>
+  <ng-template #thenBlock>thenBlock</ng-template>
+  <ng-template #elseBlock>elseBlock</ng-template>
+
+
+  <h3>Testes de CRUD</h3>
   <ion-button expand="full" (click)="getOneData(dataTesteEdit.id)">Show in Console [GET]: {{ dataTesteEdit.id }}
   </ion-button>
 
