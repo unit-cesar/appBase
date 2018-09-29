@@ -45,6 +45,7 @@ export class CadastroPage implements OnInit, OnDestroy {
       console.log('\n\nERROR IN:\n' + this.fileName + '\n' + error.message + '\n\n');
     });
 
+
     this.myForm = this.formBuilder.group({
       userName: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
       email: [null, [Validators.required, Validators.email]],

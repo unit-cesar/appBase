@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { IUser } from '../interfaces/iuser';
 import { Storage } from '@ionic/storage';
 import { NavigationEnd, NavigationError, NavigationStart, Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,7 @@ export class UserService {
   userAuth: boolean;
   showMenuEmitter = new EventEmitter<boolean>();
   userData: IUser;
+  private inscAjaxSimple: Subscription;
 
 
   constructor(public http: HttpClient, private storage: Storage, public router: Router) {
@@ -128,13 +130,23 @@ export class UserService {
             this.getOne(resStorage.id).subscribe(
               res => {
                 console.log('Buscando DB e comparando DADOS');
-                if (!this.userAuth) {
-                  this.userAuth = true;
-                  this.showMenuEmitter.emit(true);
+                if (res) {
+                  if (!this.userAuth) {
+                    this.userAuth = true;
+                    this.showMenuEmitter.emit(true);
+                  }
+                } else {
+                  // User inválido - Remove do storage
+                  this.removeStorage('user');
+                  this.showMenuEmitter.emit(false);
+                  this.userAuth = false;
                 }
               },
               error => {
-                console.log('Erro em:' + error.message);
+                console.log('Erro em:' + error.message + '\n\nErro ao buscar dados de login no WebService\n\n');
+                // Servidor off, implementar:
+                // Manter user(que está no Storage) autenticado, marcar e informar como offline
+                // User marcados como offline ao se conectarem deve chamar uma função de comparação
               },
               () => {
                 console.log('Login OK...');
@@ -189,6 +201,41 @@ export class UserService {
         });
     }
 
+  }
+
+  logoff() {
+
+    // Verifica no Storage ou abre vai pra tela de login ou home
+    this.getStorage('user').then(resStorage => {
+      if (resStorage) {
+
+        // Remove do storage
+        this.removeStorage('user');
+        this.showMenuEmitter.emit(false);
+
+        // Atualiza o BD e redireciona
+        this.inscAjaxSimple = this.getOne(resStorage.id).subscribe(
+          res => {
+            console.log(res);
+            // Insere log em db (Pendente)
+          },
+          error => {
+            console.log('Erro em:' + error.message);
+            // Servidor off, implementar:
+            // Inserir log em storage para o user para possível registro na próxima sync de login
+          },
+          () => {
+            console.log('Logoff OK');
+            this.inscAjaxSimple.unsubscribe();
+            this.router.navigate(['/home'], {queryParams: {'ref': this.router.url}});
+          });
+
+
+      } else {
+        console.log('User não existe em Storage');
+        this.router.navigate(['/login'], {queryParams: {'ref': this.router.url}});
+      }
+    });
   }
 
 }

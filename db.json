@@ -2,7 +2,7 @@
   "cursos": [
     {
       "id": 0,
-      "titulo": "Curso de JavaScript",
+      "titulo": "Curso de JavaScript 2",
       "descricao": "Aprenda na prática",
       "valor": 23.9,
       "valor_txt": "R$ 23,90",

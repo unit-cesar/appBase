@@ -4,6 +4,7 @@ import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { UserService } from './services/user.service';
+import { IUser } from './interfaces/iuser';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ export class AppComponent implements OnInit {
 
   private showMenu: boolean;
   public appPages;
+  private userId: Number;
 
   constructor(
     private platform: Platform,
@@ -48,6 +50,12 @@ export class AppComponent implements OnInit {
   }
 
   guardRefreshMenu() {
+
+    this.userId = null;
+    if (this.userService.userData) {
+      this.userId = this.userService.userData.id;
+    }
+
     this.appPages = [
       {
         title: 'Home',
@@ -63,7 +71,7 @@ export class AppComponent implements OnInit {
         routerDirection: 'forward'
       }, {
         title: 'Perfil',
-        url: '/perfil/0', // ???????????????
+        url: '/perfil/' + this.userId,
         icon: 'at',
         guard: this.showMenu,
         routerDirection: 'forward'

@@ -97,19 +97,24 @@ export class HomePage implements OnInit, OnDestroy {
 
     this.inscCursos = this.cursosService.getAll().subscribe(
       res => {
+        // console.log('RES XXX');
         this.lista = res;
       },
       error => {
         console.log('\n\nERROR IN:\n' + this.fileName + '\n' + error.message + '\n\n');
       },
       () => {
+        // console.log('complete XXX');
         this.showPage = true;
-        this.inscCursos.unsubscribe();
+        // this.inscCursos.unsubscribe();
       });
 
     if (this.lista) {
       this.showPage = true;
     }
+
+
+
   }
 
   ngOnDestroy() {
