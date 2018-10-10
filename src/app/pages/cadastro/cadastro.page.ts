@@ -14,7 +14,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class CadastroPage implements OnInit, OnDestroy {
 
   fileName = 'src/app/pages/cadastro/cadastro.page.ts';
-  user: IUser = {'username': 'devesa', 'email': 'user@user.com', 'pw': '123'};
+  user: IUser = {'name': 'devesa', 'email': 'user@user.com', 'password': '123'};
   inscAdd: Subscription;
   showPage: boolean;
   inscBackButton: Subscription;
@@ -49,7 +49,7 @@ export class CadastroPage implements OnInit, OnDestroy {
     this.myForm = this.formBuilder.group({
       userName: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
       email: [null, [Validators.required, Validators.email]],
-      pw: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]]
+      password: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]]
 
       // Para validar com Expressão Regular
       // tslint:disable-next-line:max-line-length
@@ -74,9 +74,9 @@ export class CadastroPage implements OnInit, OnDestroy {
     if (this.myForm.valid) {
 
       // console.log(this.myForm.value.userName);
-      // this.user.username = this.myForm.value.userName;
+      // this.user.name = this.myForm.value.userName;
       // this.user.email = this.myForm.value.email;
-      // this.user.pw = this.myForm.value.pw;
+      // this.user.password = this.myForm.value.password;
 
       this.postAddData(this.myForm.value);
 
@@ -111,13 +111,13 @@ export class CadastroPage implements OnInit, OnDestroy {
           const requiredLength = this.myForm.get('userName').errors['minlength']['requiredLength'];
           this.messageError = 'No campo \'Nome\' é preciso ao menos ' + requiredLength + ' caracteres';
 
-        } else if ((campo === 'pw') && (this.myForm.get('pw').errors['minlength'])) {
+        } else if ((campo === 'password') && (this.myForm.get('password').errors['minlength'])) {
           // Length password
-          // console.log(this.myForm.get('pw').errors['minlength']['requiredLength']);
-          const requiredLength = this.myForm.get('pw').errors['minlength']['requiredLength'];
+          // console.log(this.myForm.get('password').errors['minlength']['requiredLength']);
+          const requiredLength = this.myForm.get('password').errors['minlength']['requiredLength'];
           this.messageError = 'No campo \'Senha\' é preciso ao menos ' + requiredLength + ' caracteres';
-          // Reset pw
-          this.myForm.controls['pw'].reset();
+          // Reset password
+          this.myForm.controls['password'].reset();
         }
 
         console.log(this.messageError);

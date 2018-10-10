@@ -10,25 +10,23 @@ import { Subscription } from 'rxjs';
 })
 export class UserService {
 
-  // Run:
+  // Para o SQLite run:
   // json-server --host 10.0.0.7 --port 3000 --watch db.json
   // http://10.0.0.7:3000/user
 
-  private readonly API: String = 'http://10.0.0.7:3000';
-  headers: any;
+  // Para SQLite
+  // private readonly API: String = 'http://10.0.0.7:3000';
 
+  // Para API
+  private readonly API: String = 'http://127.0.0.1:8000/api';
+
+  headers: any;
   userAuth: boolean;
   showMenuEmitter = new EventEmitter<boolean>();
   userData: IUser;
-  private inscAjaxSimple: Subscription;
-
 
   constructor(public http: HttpClient, private storage: Storage, public router: Router) {
     console.log('Hello UserProvider Provider');
-
-    // Usado no Laravel
-    // this.headers = {"headers": {"authorization": "Bearer " + this.token}};
-
 
     // Ao re-entrar ou no refresh deve-se checar a autenticação
     this.checkAuth();
@@ -49,6 +47,12 @@ export class UserService {
 
   }
 
+  setHeaders() {
+    // Usado no Laravel
+    if (this.userData.token) {
+      this.headers = {'headers': {'authorization': 'Bearer ' + this.userData.token, 'X-Requested-With': 'XMLHttpRequest'}};
+    }
+  }
 
   setStorage(key, value) {
     return this.storage.set(key, value);
@@ -64,49 +68,44 @@ export class UserService {
 
 
   getAll() {
-    return this.http.get<IUser[]>(this.API + '/user');
+    return this.http.get<IUser[]>(this.API + '/adm/users');
   }
 
   getOne(data: Number) {
-    return this.http.get<IUser>(this.API + '/user/' + data);
+    return this.http.get<IUser>(this.API + '/adm/users/' + data, this.headers);
   }
 
   postAdd(data: IUser) {
-    return this.http.post<IUser>(this.API + '/user', data);
+    return this.http.post<IUser>(this.API + '/adm/users', data);
   }
 
   putEdit(data: IUser) {
-    return this.http.put<IUser>(this.API + '/user/' + data.id, data);
+    return this.http.put<IUser>(this.API + '/adm/users/' + data.id, data);
   }
 
   deleteOne(data: IUser) {
-    return this.http.delete<IUser>(this.API + '/user/' + data.id);
+    return this.http.delete<IUser>(this.API + '/adm/users/' + data.id);
   }
 
 
   getLogin(data: IUser) {
+    // console.dir(data);
+    return this.http.post<IUser>(this.API + '/login', data, this.headers);
+  }
 
-    // Pendente: essas funções e a comparação deve ser feita no WebService
-    if ((data.username === 'devesa-0') && (data.pw === '123')) {
+  login(data: IUser) {
+    this.userData = data;
+    this.userAuth = true;
+    this.showMenuEmitter.emit(true);
 
-      this.userData = data;
-      this.userAuth = true;
-      this.showMenuEmitter.emit(true);
+    // Set Storage
+    this.setStorage('user', data);
 
-      // Set Storage
-      this.setStorage('user', data);
-      // Redirect
-      this.router.navigate(['/'], {queryParams: {'ref': '.getLogin.UserService'}});
-      return true;
+    // Set Headers
+    this.setHeaders();
 
-    } else {
-
-      // console.log('else');
-      this.userAuth = false;
-      this.showMenuEmitter.emit(false);
-      return false;
-
-    }
+    // Redirect
+    this.router.navigate(['/'], {queryParams: {'ref': '.getLogin.UserService'}});
   }
 
   checkAuth() {
@@ -121,46 +120,52 @@ export class UserService {
     if (this.userAuth === false) {
       console.log('Buscando Storage');
 
-      // check storage e compara chave de autenticação com webServer(Pendente)
-      this.getStorage('user').then(
-        resStorage => {
-          // Compara com BD e redireciona pra '/perfil/:idUser' se houver algo em Storage
-          if (resStorage) {
-            this.userData = resStorage;
-            this.getOne(resStorage.id).subscribe(
-              res => {
-                console.log('Buscando DB e comparando DADOS');
-                if (res) {
-                  if (!this.userAuth) {
-                    this.userAuth = true;
-                    this.showMenuEmitter.emit(true);
-                  }
-                } else {
-                  // User inválido - Remove do storage
-                  this.removeStorage('user');
-                  this.showMenuEmitter.emit(false);
-                  this.userAuth = false;
-                }
-              },
-              error => {
-                console.log('Erro em:' + error.message + '\n\nErro ao buscar dados de login no WebService\n\n');
-                // Servidor off, implementar:
-                // Manter user(que está no Storage) autenticado, marcar e informar como offline
-                // User marcados como offline ao se conectarem deve chamar uma função de comparação
-              },
-              () => {
-                console.log('Login OK...');
-              });
+      this.getStorage('user').then(resStorage => {
 
-          } else {
-            console.log('Nada em storage');
-            if (this.userAuth) {
-              this.userData = null;
-              this.userAuth = false;
-              this.showMenuEmitter.emit(false);
-            }
+        // Compara com BD e redireciona pra '/perfil/:idUser' se houver algo em Storage
+        if (resStorage) {
+
+          this.userData = resStorage;
+          this.setHeaders(); // Set Headers e token com userData
+
+          // Busca no webservice com token de storage para o webservice comparar se pertence ao mesmo user
+          // @ts-ignore
+          this.getOne(this.userData.id).subscribe((res: IUser) => {
+              console.log('Buscando DB e comparando DADOS');
+              // console.log(res.status);
+
+              // Verifica resposta do webservice
+              if (res.status === '202') {
+                if (!this.userAuth) {
+                  this.userAuth = true;
+                  this.showMenuEmitter.emit(true);
+                }
+              } else {
+                // User inválido - Remove do storage
+                this.removeStorage('user');
+                this.showMenuEmitter.emit(false);
+                this.userAuth = false;
+              }
+            },
+            error => {
+              console.log('Erro em:' + error.message + '\n\nErro ao buscar dados de login no WebService\n\n');
+              // Servidor off, implementar:
+              // Manter user(que está no Storage) autenticado, marcar e informar como offline
+              // User marcados como offline ao se conectarem deve chamar uma função de comparação
+            },
+            () => {
+              // console.log('Login...');
+            });
+
+        } else {
+          console.log('Nada em storage');
+          if (this.userAuth) {
+            this.userData = null;
+            this.userAuth = false;
+            this.showMenuEmitter.emit(false);
           }
-        });
+        }
+      });
     } else {
 
       // Caso haja limpeza dos arquivos offline no navegado
@@ -203,39 +208,10 @@ export class UserService {
 
   }
 
-  logoff() {
 
-    // Verifica no Storage ou abre vai pra tela de login ou home
-    this.getStorage('user').then(resStorage => {
-      if (resStorage) {
-
-        // Remove do storage
-        this.removeStorage('user');
-        this.showMenuEmitter.emit(false);
-
-        // Atualiza o BD e redireciona
-        this.inscAjaxSimple = this.getOne(resStorage.id).subscribe(
-          res => {
-            console.log(res);
-            // Insere log em db (Pendente)
-          },
-          error => {
-            console.log('Erro em:' + error.message);
-            // Servidor off, implementar:
-            // Inserir log em storage para o user para possível registro na próxima sync de login
-          },
-          () => {
-            console.log('Logoff OK');
-            this.inscAjaxSimple.unsubscribe();
-            this.router.navigate(['/home'], {queryParams: {'ref': this.router.url}});
-          });
-
-
-      } else {
-        console.log('User não existe em Storage');
-        this.router.navigate(['/login'], {queryParams: {'ref': this.router.url}});
-      }
-    });
+  getLogout() {
+    // console.dir(this.userData);
+    return this.http.post(this.API + '/logout', this.userData, this.headers);
   }
-
+  
 }

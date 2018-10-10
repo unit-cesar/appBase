@@ -17,7 +17,7 @@
       <div>Id: {{ user.id }}</div>
     </ion-item>
     <ion-item>
-      <ion-input type="text" placeholder="Username" [(ngModel)]="user.username"></ion-input>
+      <ion-input type="text" placeholder="Username" [(ngModel)]="user.name"></ion-input>
     </ion-item>
 
     <ion-item>
@@ -25,7 +25,7 @@
     </ion-item>
 
     <ion-item>
-      <ion-input type="password" placeholder="Password" [(ngModel)]="user.pw"></ion-input>
+      <ion-input type="password" placeholder="Password" [(ngModel)]="user.password"></ion-input>
     </ion-item>
 
     <ion-button expand="full" (click)="putEditData(user)">Editar</ion-button>

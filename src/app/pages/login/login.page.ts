@@ -16,13 +16,14 @@ export class LoginPage implements OnInit, OnDestroy {
   // json-server --host 10.0.0.7 --port 3000 --watch db.json
   // http://10.0.0.7:3000/cursos
 
-  // Var for test
-  user: IUser = {'id': 0, 'username': 'devesa-0', 'email': 'user0@user.com', 'pw': '123'};
+  // user: IUser = {'email': '', 'password': ''};
+  user = {'email': '', 'password': ''};
 
   showPage: boolean;
   fileName = 'src/app/pages/login/login.page.ts';
   inscBackButton: Subscription;
   element: HTMLElement;
+  inscLogin: Subscription;
 
   constructor(public userService: UserService, public router: Router, public platform: Platform) {
   }
@@ -53,11 +54,36 @@ export class LoginPage implements OnInit, OnDestroy {
   }
 
   getLoginData(data: IUser) {
-    if (!this.userService.getLogin(data)) {
-      console.log('Usuário ou senha inválido!');
-      alert('Usuário ou senha inválido!');
-    }
+
+    // @ts-ignore
+    this.inscLogin = this.userService.getLogin(data).subscribe((res: IUser) => {
+
+        console.log(res);
+        if (res.token) {
+
+          // Login ok
+          this.userService.login(res);
+
+        } else {
+
+          console.log('Usuário ou senha inválido!');
+          alert(JSON.stringify(res));
+
+          // console.log('else');
+          this.userService.userAuth = false;
+          this.userService.showMenuEmitter.emit(false);
+
+          // this.userService.logoff(); (pendente)?????????????????? se logoff acontecer no postman remove aqui tbm?
+        }
+      },
+      error => {
+        console.log('\n\nERROR IN:\n' + this.fileName + '\n' + error.message + '\n\n');
+      },
+      () => {
+      });
+
   }
+
   ngOnDestroy() {
     this.inscBackButton.unsubscribe();
   }

@@ -1,6 +1,9 @@
-export interface IUser{
+export interface IUser {
   id?: number; // não é obrigatório
-  username: string;
+  name: string;
   email: string;
-  pw: string;
+  password?: string;
+  token?: string; // (pendente)remover o ?
+  status?: string;
+  message?: string;
 }

@@ -15,15 +15,11 @@
   <ion-list *ngIf="showPage">
 
     <ion-item>
-      <ion-input type="text" placeholder="Username" [(ngModel)]="user.username"></ion-input>
+      <ion-input type="text" placeholder="Email" [(ngModel)]="user.email"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-input type="password" placeholder="Password" [(ngModel)]="user.pw"></ion-input>
-    </ion-item>
-
-    <ion-item>
-      <ion-input type="text" placeholder="Password" [(ngModel)]="user.id"></ion-input>
+      <ion-input type="password" placeholder="Password" [(ngModel)]="user.password"></ion-input>
     </ion-item>
 
     <ion-button expand="full" (click)="getLoginData(user)">Entrar</ion-button>
