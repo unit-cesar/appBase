@@ -80,7 +80,7 @@ export class ProfilePage implements OnInit, OnDestroy {
 
   putEditData(data: IUser) {
     // Primeiro no Servidor depois no Storage
-    this.inscUserPut = this.userService.putEdit(data).subscribe(
+    this.inscUserPut = this.userService.putUpdate(data).subscribe(
       res => {
         this.userService.setStorage('user', res);
         console.log(res);

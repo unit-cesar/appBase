@@ -49,11 +49,12 @@ export class UserService {
 
   setHeaders() {
     // Usado no Laravel
+    //  'Content-Type': 'application/x-www-form-urlencoded'
     if (this.userData.token) {
+      // tslint:disable-next-line:max-line-length
       this.headers = {'headers': {'authorization': 'Bearer ' + this.userData.token, 'X-Requested-With': 'XMLHttpRequest'}};
     }
   }
-
   setStorage(key, value) {
     return this.storage.set(key, value);
   }
@@ -68,23 +69,30 @@ export class UserService {
 
 
   getAll() {
-    return this.http.get<IUser[]>(this.API + '/adm/users');
+    return this.http.get<IUser[]>(this.API + '/adm/users', this.headers);
   }
 
   getOne(data: Number) {
     return this.http.get<IUser>(this.API + '/adm/users/' + data, this.headers);
   }
 
-  postAdd(data: IUser) {
-    return this.http.post<IUser>(this.API + '/adm/users', data);
+  postStore(data: IUser) {
+    console.log(data);
+    return this.http.post<IUser>(this.API + '/adm/users', data, this.headers);
   }
 
-  putEdit(data: IUser) {
-    return this.http.put<IUser>(this.API + '/adm/users/' + data.id, data);
+  registerUser(data: IUser) {
+    console.log(data);
+    return this.http.post<IUser>(this.API + '/register', data, this.headers);
+  }
+
+  putUpdate(data: IUser) {
+    console.log(data);
+    return this.http.put<IUser>(this.API + '/adm/users/' + data.id, data, this.headers);
   }
 
   deleteOne(data: IUser) {
-    return this.http.delete<IUser>(this.API + '/adm/users/' + data.id);
+    return this.http.delete<IUser>(this.API + '/adm/users/' + data.id, this.headers);
   }
 
 
@@ -202,8 +210,7 @@ export class UserService {
             console.log('Página redundante');
             //       // Caso user autenticado acesse diretamente(pela url) páginas redundantes(Login, Cadastro...), completa o Guard authOut
             this.router.navigate(['/'], {queryParams: {'ref': 'checkAuth.UserService-1'}});
-          }
-        });
+          }});
     }
 
   }
@@ -213,5 +220,4 @@ export class UserService {
     // console.dir(this.userData);
     return this.http.post(this.API + '/logout', this.userData, this.headers);
   }
-  
 }

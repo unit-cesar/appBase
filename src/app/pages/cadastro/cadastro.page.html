@@ -17,10 +17,10 @@
   <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
     <ion-list *ngIf="showPage">
 
-      <ion-item id="item-userName">
+      <ion-item id="item-name">
         <ion-label position="floating">Nome</ion-label>
-        <ion-input type="text" [formControlName]="'userName'" id="userName"
-                   (ionChange)="checkFields(this.myForm, 'userName')"></ion-input>
+        <ion-input type="text" [formControlName]="'name'" id="name"
+                   (ionChange)="checkFields(this.myForm, 'name')"></ion-input>
       </ion-item>
 
       <ion-item id="item-email">
@@ -33,6 +33,12 @@
         <ion-label position="floating">Senha</ion-label>
         <ion-input type="password" [formControlName]="'password'" id="password"
                    (ionChange)="checkFields(this.myForm, 'password')"></ion-input>
+      </ion-item>
+
+      <ion-item id="item-password_confirmation">
+        <ion-label position="floating">Confirma Senha</ion-label>
+        <ion-input type="password" [formControlName]="'password_confirmation'" id="password_confirmation"
+                   (ionChange)="checkFields(this.myForm, 'password_confirmation')"></ion-input>
       </ion-item>
 
       <ion-button expand="full" color="primary" type="submit" [disabled]="false">Registrar</ion-button>

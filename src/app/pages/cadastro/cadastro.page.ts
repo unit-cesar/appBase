@@ -14,7 +14,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class CadastroPage implements OnInit, OnDestroy {
 
   fileName = 'src/app/pages/cadastro/cadastro.page.ts';
-  user: IUser = {'name': 'devesa', 'email': 'user@user.com', 'password': '123'};
+  user: IUser = {'name': 'devesa', 'email': 'user@user.com', 'password': '123', 'password_confirmation': '123' };
   inscAdd: Subscription;
   showPage: boolean;
   inscBackButton: Subscription;
@@ -47,9 +47,10 @@ export class CadastroPage implements OnInit, OnDestroy {
 
 
     this.myForm = this.formBuilder.group({
-      userName: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
+      name: [null, [Validators.required, Validators.minLength(4), Validators.maxLength(20)]],
       email: [null, [Validators.required, Validators.email]],
-      password: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]]
+      password: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]],
+      password_confirmation: [null, [Validators.required, Validators.minLength(5), Validators.maxLength(20)]]
 
       // Para validar com Expressão Regular
       // tslint:disable-next-line:max-line-length
@@ -73,10 +74,11 @@ export class CadastroPage implements OnInit, OnDestroy {
 
     if (this.myForm.valid) {
 
-      // console.log(this.myForm.value.userName);
-      // this.user.name = this.myForm.value.userName;
+      // console.log(this.myForm.value.name);
+      // this.user.name = this.myForm.value.name;
       // this.user.email = this.myForm.value.email;
       // this.user.password = this.myForm.value.password;
+      // this.user.passw.password_confirmation = this.myForm.value.password_confirmation;
 
       this.postAddData(this.myForm.value);
 
@@ -100,15 +102,15 @@ export class CadastroPage implements OnInit, OnDestroy {
 
 
         // Subscreve o Toast
-        // console.log(this.myForm.get('userName').errors);
+        // console.log(this.myForm.get('name').errors);
         if ((campo === 'email') && (this.myForm.get('email').errors['email'])) {
           //  Email invalido
           // console.log(this.myForm.get('email').errors['email']);
           this.messageError = 'Email invalido!';
-        } else if ((campo === 'userName') && (this.myForm.get('userName').errors['minlength'])) {
-          // Length userName
-          // console.log(this.myForm.get('userName').errors['minlength']['requiredLength']);
-          const requiredLength = this.myForm.get('userName').errors['minlength']['requiredLength'];
+        } else if ((campo === 'name') && (this.myForm.get('name').errors['minlength'])) {
+          // Length name
+          // console.log(this.myForm.get('name').errors['minlength']['requiredLength']);
+          const requiredLength = this.myForm.get('name').errors['minlength']['requiredLength'];
           this.messageError = 'No campo \'Nome\' é preciso ao menos ' + requiredLength + ' caracteres';
 
         } else if ((campo === 'password') && (this.myForm.get('password').errors['minlength'])) {
@@ -118,6 +120,7 @@ export class CadastroPage implements OnInit, OnDestroy {
           this.messageError = 'No campo \'Senha\' é preciso ao menos ' + requiredLength + ' caracteres';
           // Reset password
           this.myForm.controls['password'].reset();
+          this.myForm.controls['password_confirmation'].reset();
         }
 
         console.log(this.messageError);
@@ -159,7 +162,7 @@ export class CadastroPage implements OnInit, OnDestroy {
   }
 
   postAddData(data: IUser) {
-    this.inscAdd = this.userService.postAdd(data).subscribe(
+    this.inscAdd = this.userService.registerUser(data).subscribe(
       res => {
         console.log(res);
         if (res) {
